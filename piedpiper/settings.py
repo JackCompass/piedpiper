@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'crispy_forms',
+	'captcha',
 	'piperchat.apps.PiperchatConfig',
 	'piperuser.apps.PiperuserConfig',
 ]
@@ -122,6 +123,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+LOGIN_REDIRECT_URL = '/registration/'
+LOGOUT_REDIRECT_URL = 'register/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
