@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path(r'captcha/', include('captcha.urls')),
-	path('registration/', include('piperuser.urls'))
+	path('registration/', include('piperuser.urls')),
+	path('', include('piperchat.urls')),
 ]

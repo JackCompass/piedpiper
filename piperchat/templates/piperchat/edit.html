@@ -1,0 +1,34 @@
+{% extends 'piperuser/base.html' %}
+{% block content %}
+{% load static %}
+{%if user.is_authenticated %}
+	<div class="row">
+		<div class="col-sm-6" style="margin: auto;">
+			<h3 class="text-center alert alert-info">Users Information</h3>
+				<table class="table table-hover">
+					<div class="card">
+						<form action="">
+							{% csrf_token %}
+							{{form}}
+						</form>
+					  </div>
+					</tbody>
+				</table>
+				<div class="btn" style="display: flex; justify-content: space-around;">
+					<div class="btn-group" role="group" aria-label="Basic example"">
+						<a href="#" style="text-decoration: none;"><button type="button" class="btn btn-secondary">Edit</button></a>
+					</div>
+					<div class="btn-group" role="group" aria-label="Basic example"">
+						<button type="button" class="btn btn-secondary">Chat</button>
+					</div>
+				</div>
+		</div>
+	</div>
+{% else %}
+<div class="row">
+	<div class="text-center col-sm-5 offset-3">
+		<button type="submit" class="btn btn-info"><a href="{% url 'login' %}">Login</a></button>
+	</div>
+</div>
+{% endif %}
+{% endblock content %}
