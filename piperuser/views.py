@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse
 from piperuser.forms import Registration, EditProfileForm
+from django.contrib.auth.forms import  PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -35,7 +36,22 @@ def editprofile(request):
 			return redirect(reverse('profile'))
 	else:
 		form = EditProfileForm(instance = request.user)
-		print(request.user)
 		return render(request, 'piperuser/editprofile.html', {
+			'form' : form
+		})
+
+def changepassword(request):
+	if request.method == 'POST':
+		form = PasswordChangeForm(data = request.POST, user = request.user)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse('profile'))
+		else:
+			return render(request, 'piperuser/password.html', {
+				'form' : form
+			})
+	else:
+		form = PasswordChangeForm(user = request.user)
+		return render(request, 'piperuser/password.html', {
 			'form' : form
 		})
