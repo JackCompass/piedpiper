@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'crispy_forms',
-	'piperchat',
-	'piperuser',
+	'piperchat.apps.PiperchatConfig',
+	'piperuser.apps.PiperuserConfig',
 ]
 
 MIDDLEWARE = [
