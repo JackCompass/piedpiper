@@ -14,6 +14,3 @@ def home(request):
 		'profession' : profession
 	})
 
-@login_required()
-def profile_edit(request):
-	return render(request, 'piperchat/edit.html')

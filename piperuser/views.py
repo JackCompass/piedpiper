@@ -1,5 +1,8 @@
-from django.shortcuts import render, HttpResponse
-from piperuser.forms import Registration
+from django.shortcuts import render, HttpResponse, redirect, reverse
+from piperuser.forms import Registration, EditProfileForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 def register(request):
 	# When the POST request comes we have to validate the data.
@@ -17,4 +20,22 @@ def register(request):
 		'form' : form,
 	})
 	
+@login_required
+def profile(request):
+	return render(request, 'piperuser/profile.html', {
+		'user' : request.user,
+	})
 
+@login_required
+def editprofile(request):
+	if request.method == 'POST':
+		form = EditProfileForm(request.POST, instance = request.user)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse('profile'))
+	else:
+		form = EditProfileForm(instance = request.user)
+		print(request.user)
+		return render(request, 'piperuser/editprofile.html', {
+			'form' : form
+		})

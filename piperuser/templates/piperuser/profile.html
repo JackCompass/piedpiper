@@ -8,9 +8,9 @@
 				<table class="table table-hover">
 					<div class="card">
 						<img src="{% static 'piperchat/avatar.png' %}" alt="John" style="width:50%; margin: auto;">
-						<h1>{{username}}</h1>
-						<p class="title">{{name}}</p>
-						<p>{{profession}}</p>
+						<h1>{{user.username}}</h1>
+						<p>{{user.email}}</p>
+						<p>{{user.first_name}} {{user.last_name}}</p>
 						<a href="#"><i class="fa fa-dribbble"></i></a>
 						<a href="#"><i class="fa fa-twitter"></i></a>
 						<a href="#"><i class="fa fa-linkedin"></i></a>
@@ -21,7 +21,7 @@
 				</table>
 				<div class="btn" style="display: flex; justify-content: space-around;">
 					<div class="btn-group" role="group" aria-label="Basic example"">
-						<a href="/account/profile/edit" style="text-decoration: none;"><button type="button" class="btn btn-secondary">Edit</button></a>
+						<a href="{% url 'editprofile' %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary">Edit</button></a>
 					</div>
 					<div class="btn-group" role="group" aria-label="Basic example"">
 						<button type="button" class="btn btn-secondary">Chat</button>
