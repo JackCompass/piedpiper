@@ -1,0 +1,19 @@
+{% extends 'piperuser/base.html' %}
+{% block content %}
+{% load static %}
+	<div class="row">
+		<div class="col-sm-6" style="margin: auto;">
+			<h3 class="text-center alert alert-info">Search User</h3>
+				<table class="table table-hover">
+					<div class="card">
+						Want to serch for your friend?<br>
+						<form action="{% url 'profilesearch' %}" method="POST">
+							{% csrf_token %}
+							<input id="room-name-input" type="text" size="100" name="username" placeholder="Serch by username" style="width: 50%; margin: 5px auto;"><br>
+							<button type="Submit" value="add" style="width: 25%; margin:auto; border-radius: 5px;">Search</button>
+						</form>
+					</div>
+				</table>
+		</div>
+	</div>
+{% endblock content %}

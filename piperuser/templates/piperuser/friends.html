@@ -4,14 +4,18 @@
 {%if user.is_authenticated %}
 	<div class="row">
 		<div class="col-sm-6" style="margin: auto;">
-			<h3 class="text-center alert alert-info">{{user.username | capfirst}} Profile</h3>
+			<h3 class="text-center alert alert-info">Your Profile</h3>
 				<table class="table table-hover">
 					<div class="card">
 						<img src="{% static 'piperchat/avatar.png' %}" alt="John" style="width:50%; margin: auto;">
 						<h1>{{user.username}}</h1>
 						<p>{{user.email}}</p>
-						<p>{{user.first_name | capfirst}} {{user.last_name}}</p>
-							<p><button>I am dead</button></p>
+						<p>{{user.first_name}} {{user.last_name}}</p>
+						<a href="#"><i class="fa fa-dribbble"></i></a>
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-linkedin"></i></a>
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<p><button>Contact</button></p>
 					  </div>
 					</tbody>
 				</table>

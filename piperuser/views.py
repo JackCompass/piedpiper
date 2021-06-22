@@ -55,3 +55,17 @@ def changepassword(request):
 		return render(request, 'piperuser/password.html', {
 			'form' : form
 		})
+
+@login_required()
+def profilesearch(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		searched_user = User.objects.get(username = username)
+		if searched_user:
+			return render(request, 'piperuser/profile.html', {
+				'user' : searched_user,
+			})
+		else:
+			return HttpResponse("Not Found a single user")
+	else:
+		return render(request, 'piperuser/searchuser.html')
