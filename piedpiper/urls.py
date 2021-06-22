@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from piperuser import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path(r'captcha/', include('captcha.urls')),
-	path('registration/', include('piperuser.urls')),
-	path('', include('piperchat.urls')),
+	path('', include('piperuser.urls')),
+	path('chat/', include('piperchat.urls')),
+	path('', v.profile, name = 'redirect_profile'),
 ]

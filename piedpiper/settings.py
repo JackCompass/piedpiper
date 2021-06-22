@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'crispy_forms',
 	'captcha',
+	'channels',
 	'piperchat.apps.PiperchatConfig',
 	'piperuser.apps.PiperuserConfig',
 ]
@@ -72,6 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'piedpiper.wsgi.application'
+ASGI_APPLICATION = 'piedpiper.asgi.application'
 
 
 # Database
@@ -122,6 +124,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            # "hosts": [('127.0.0.1', 6379)],
+			"hosts" : [('redis://:J5fnFYyYeSvdlpsi5qSo9XN2JlN8vjAP@redis-13640.c263.us-east-1-2.ec2.cloud.redislabs.com:13640')],
+        },
+    },
+}
 
 
 LOGIN_REDIRECT_URL = '/registration/profile/'
