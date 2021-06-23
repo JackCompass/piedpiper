@@ -14,7 +14,7 @@ def register(request):
 			new_user = form.save()
 			new_user = authenticate(username = form.cleaned_data['username'], password = form.cleaned_data['password1'],)
 			login(request, new_user)
-			return redirect(reverse('index'))
+			return redirect(reverse('profile'))
 		else:
 			return render(request, 'piperuser/register.html', {
 				'form' : form
