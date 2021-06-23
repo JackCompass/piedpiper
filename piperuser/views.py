@@ -3,6 +3,7 @@ from piperuser.forms import Registration, EditProfileForm
 from django.contrib.auth.forms import  PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 
 
 def register(request):
@@ -10,8 +11,10 @@ def register(request):
 	if (request.method == 'POST'):
 		form = Registration(request.POST)
 		if form.is_valid():
-			form.save()
-			return redirect(reverse('login'))
+			new_user = form.save()
+			new_user = authenticate(username = form.cleaned_data['username'], password = form.cleaned_data['password1'],)
+			login(request, new_user)
+			return redirect(reverse('index'))
 		else:
 			return render(request, 'piperuser/register.html', {
 				'form' : form
