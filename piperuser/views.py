@@ -11,7 +11,7 @@ def register(request):
 		form = Registration(request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponse('Account Created')
+			return redirect(reverse('login'))
 		else:
 			return render(request, 'piperuser/register.html', {
 				'form' : form
