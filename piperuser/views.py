@@ -25,7 +25,7 @@ def register(request):
 	return render(request, 'piperuser/register.html', {
 		'form' : form,
 	})
-	
+
 @login_required
 def profile(request):
 	return render(request, 'piperuser/profile.html', {
@@ -61,6 +61,7 @@ def changepassword(request):
 			'form' : form
 		})
 
+@login_required
 def profilesearch(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
