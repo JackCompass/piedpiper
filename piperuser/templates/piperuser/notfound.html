@@ -1,0 +1,34 @@
+{% extends 'piperuser/base.html' %}
+{% block content %}
+{% load static %}
+	<div class="col-sm-6" style="margin: auto;">
+		<h3 class="text-center alert alert-info">No Matching Profile</h3>
+			<table class="table table-hover">
+				<div class="card">
+					<img src="{% static 'piperchat/avatar.png' %}" alt="John" style="width:50%; margin: auto;">
+					<h2>User Does Not Exist</h2>
+					</div>
+					<!-- <p><button style="background-color: black;"><svg height="22" width="20">
+						<circle cx="10" cy="10" r="4" fill="green" />
+					</svg>Online</button></p> -->
+					
+					</div>
+				</tbody>
+			</table>
+			<div class="btn" style="display: flex; justify-content: space-between; background-color: #484e52;">
+				<div class="btn-group" role="group" aria-label="Basic example"">
+					<a href="{% url 'editprofile' %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary" style="background-color: #111f28">Edit</button></a>
+				</div>
+				<div class="btn-group" role="group" aria-label="Basic example"">
+					<a href="{% url 'profilesearch' %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary" style="background-color: #111f28;">Search</button></a>
+				</div>
+				<div class="btn-group" role="group" aria-label="Basic example"">
+					<a href="{% url 'index' %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary" style="background-color: #111f28;">Chat</button></a>
+				</div>
+				<div class="btn-group" role="group" aria-label="Basic example"">
+					<a href="{% url 'logout' %}" style="text-decoration: none;"><button type="button" class="btn btn-secondary" style="background-color: #111f28;">Logout</button></a>
+				</div>
+			</div>
+	</div>
+</div>
+{% endblock content %}

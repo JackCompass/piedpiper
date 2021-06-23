@@ -4,9 +4,11 @@ from django.contrib.auth.forms import  PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from asgiref.sync import sync_to_async
 
 
 def register(request):
+	'''It registers new users into the database'''
 	# When the POST request comes we have to validate the data.
 	if (request.method == 'POST'):
 		form = Registration(request.POST)
@@ -59,16 +61,17 @@ def changepassword(request):
 			'form' : form
 		})
 
-@login_required()
 def profilesearch(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
-		searched_user = User.objects.get(username = username)
-		if searched_user:
+		try:
+			searched_user = User.objects.get(username = username)
+		except User.DoesNotExist:
+			return render(request, "piperuser/notfound.html")
+		else:
 			return render(request, 'piperuser/profile.html', {
 				'user' : searched_user,
 			})
-		else:
-			return HttpResponse("Not Found a single user")
+			
 	else:
 		return render(request, 'piperuser/searchuser.html')
