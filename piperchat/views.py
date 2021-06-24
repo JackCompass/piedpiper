@@ -10,6 +10,7 @@ def index(request):
 
 @login_required()
 def room(request, room_name):
+	print(request.user.username)
 	return render(request, 'piperchat/room.html', {
 		'room_name' : room_name,
 	})

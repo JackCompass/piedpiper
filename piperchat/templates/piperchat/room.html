@@ -4,7 +4,11 @@
 <div class="row">
 	<div class="col-sm-8" style="margin: auto">
 		<h3 class="text-center alert alert-info">Inbox</h3>
-		<textarea readonly id="chat-log" style="width: 100%; height: 200px;"></textarea><br>
+		<div class="msg-box-chat">
+			<div id="chat-log">
+			</div>
+		</div>
+		<!-- <textarea readonly id="chat-log" style="width: 100%; height: 200px;"></textarea><br> -->
 		<input id="chat-message-input" type="text" size="100" placeholder="Your Message" style="width: 50%; margin-bottom: 5px;"><br>
 		<input id="chat-message-submit" type="button" value="Send">
 		{{ room_name|json_script:"room-name" }}
@@ -26,8 +30,32 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
+			// broadcast(data.message, data.username)
+			if (data.username == "{{request.user.username}}")
+				console.log('True');
+			else 
+				console.log('False');
+			broadcast(data.message, data.username);
+			scrollbottom();
+            // document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
         };
+
+		function scrollbottom() {
+			let msgbox = document.querySelector('.msg-box-chat');
+			msgbox.scrollTop = msgbox.scrollHeight;
+		}
+
+		function broadcast(msg, username) {
+			let newdiv = document.createElement('div');
+			if (username == "{{request.user.username}}")
+				var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~' + msg}</div></div>`;
+			else	
+				var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~' + msg}</div></div>`;
+			newdiv.innerHTML = new_msg;
+			let element = document.getElementById('chat-log')
+			let parent = element.parentNode;
+			parent.insertBefore(newdiv, element);
+		}
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
