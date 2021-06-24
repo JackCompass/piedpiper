@@ -13,7 +13,11 @@
 		<input id="chat-message-submit" type="button" value="Send">
 		{{ room_name|json_script:"room-name" }}
 		<div class="logout-system" style="margin: 20px 0px;">
-			<button type="button" style="width: 12%; border-radius: 5px; background-color: #484e52;"><a href="{% url 'logout' %}" style="text-decoration: none; color: white;">Logout</a></button></a>
+			<form action="{% url 'logout' %}" method='POST'>
+				{% csrf_token %}
+				<button type="submit" class="btn btn-dark" style="width: fit-content;">Logout</button>
+			</form>
+			<!-- <button type="button" style="width: 12%; border-radius: 5px; background-color: #484e52;"><a href="{% url 'logout' %}" style="text-decoration: none; color: white;">Logout</a></button></a> -->
 		</div>
 	</div>
 </div>
