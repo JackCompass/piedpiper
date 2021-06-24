@@ -31,11 +31,7 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
 			// broadcast(data.message, data.username)
-			if (data.username == "{{request.user.username}}")
-				console.log('True');
-			else 
-				console.log('False');
-			broadcast(data.message, data.username);
+			broadcast(data.message, data.username, data.msgtime);
 			scrollbottom();
             // document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
         };
@@ -45,12 +41,12 @@
 			msgbox.scrollTop = msgbox.scrollHeight;
 		}
 
-		function broadcast(msg, username) {
+		function broadcast(msg, username, msgtime) {
 			let newdiv = document.createElement('div');
 			if (username == "{{request.user.username}}")
-				var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~' + msg}</div></div>`;
+				var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
 			else	
-				var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~' + msg}</div></div>`;
+				var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
 			newdiv.innerHTML = new_msg;
 			let element = document.getElementById('chat-log')
 			let parent = element.parentNode;
@@ -71,8 +67,11 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+			let current = new Date();
+			var msgtime = current.getHours() + ':' + current.getMinutes();
             chatSocket.send(JSON.stringify({
                 'message': message,
+				'msgtime': msgtime,
             }));
             messageInputDom.value = '';
         };
