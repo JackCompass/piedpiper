@@ -12,9 +12,14 @@
 						<p>{{user.email}}</p>
 						<p>{{user.first_name | capfirst}} {{user.last_name}}</p>
 						<div class="status-user" style="background-color: black; width: 100%; height: 1.5rem;">
+							{% if user.profile.is_online %}
 							<svg height="22" width="20">
 									<circle cx="10" cy="10" r="4" fill="green" />
 							</svg>
+							<span style="color: white;">Online</span>
+							{% else %}
+							<span style="color: white;">Offline</span>
+							{% endif %}
 						</div>
 						
 					  </div>
