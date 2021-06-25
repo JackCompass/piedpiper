@@ -6,8 +6,8 @@
 			<h3 class="text-center alert alert-info">{{user.username | capfirst}} Profile</h3>
 				<table class="table table-hover">
 					<div class="card">
-						<div class="peding-message-notification">
-							<div id="notification-bar">
+						<div class="peding-message-notification" style="display: flex; flex-direction: row; width: fit-content;">
+							<div id="notification-bar"">
 							</div>
 						</div>
 						{{ user.username|json_script:"other_username" }}
@@ -72,7 +72,7 @@
 			if (username != "{{request.user.username}}")
 				var new_notification = ``;
 			else	
-				var new_notification = `<div class="user-msg-notification" style=""><div class="new-notification"><svg height="22" width="20"><a href="#"><circle id="pending-chat-message" cx="10" cy="10" r="4" fill="yellow" /></a></svg></div></div>`;
+				var new_notification = `<div class="new-notification"><svg height="22" width="20"><a href="chat/${secret_room}"><circle id="pending-chat-message" cx="10" cy="10" r="4" fill="yellow" /></a></svg></div>`;
 			newdiv.innerHTML = new_notification;
 			let element = document.getElementById('notification-bar')
 			let parent = element.parentNode;
@@ -84,8 +84,9 @@
                 'secret_room_name': secret_room_name,
 				'other_username': other_username,
             }));
-        };
+			window.location.pathname = '/chat/' + secret_room_name + '/';
 
+        };
 		function makeid(length) {
 			var result = '';
 			var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
