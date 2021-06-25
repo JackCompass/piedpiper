@@ -78,6 +78,7 @@ def profilesearch(request):
 			print(searched_user.first_name)
 			return render(request, 'piperuser/profile.html', {
 				'user' : searched_user,
+				'username' : searched_user.username,
 			})
 			
 	else:

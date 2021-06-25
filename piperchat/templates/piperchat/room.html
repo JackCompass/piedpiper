@@ -30,8 +30,7 @@
             + '/ws/chat/'
             + roomName
             + '/'
-        );
-
+        );	
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
 			// broadcast(data.message, data.username)

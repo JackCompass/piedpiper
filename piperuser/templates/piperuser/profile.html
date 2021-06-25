@@ -1,16 +1,23 @@
 {% extends 'piperuser/base.html' %}
 {% block content %}
 {% load static %}
-{%if user.is_authenticated %}
 	<div class="row">
 		<div class="col-sm-6" style="margin: auto;">
 			<h3 class="text-center alert alert-info">{{user.username | capfirst}} Profile</h3>
 				<table class="table table-hover">
 					<div class="card">
+						<div class="peding-message-notification">
+							<div id="notification-bar">
+							</div>
+						</div>
+						{{ user.username|json_script:"other_username" }}
 						<img src="{% static 'piperchat/avatar.png' %}" alt="John" style="width:50%; margin: auto;">
 						<h1>{{user.username}}</h1>
 						<p>{{user.email}}</p>
 						<p>{{user.first_name | capfirst}} {{user.last_name}}</p>
+						<div id="message-notification-pending">
+							<button type="submit" value="add" id="message-notification-signal"style="background-color: #484e52;">Connect</button>
+						</div>
 						<div class="status-user" style="background-color: black; width: 100%; height: 1.5rem;">
 							{% if user.profile.is_online %}
 							<svg height="22" width="20">
@@ -41,11 +48,54 @@
 				</div>
 		</div>
 	</div>
-{% else %}
-<div class="row">
-	<div class="text-center col-sm-5 offset-3">
-		<button type="submit" class="btn btn-info"><a href="{% url 'login' %}">Login</a></button>
-	</div>
-</div>
-{% endif %}
+	<script>
+		const other_username = JSON.parse(document.getElementById('other_username').textContent);
+		const chatSocket = new WebSocket(
+			'ws://'
+            + window.location.host
+			+ '/ws/'
+        );
+
+		chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+			notificationrun(data.message, data.other_username)
+			
+            // document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
+        };
+		// <svg height="22" width="20">
+		// 	<a href="/chat/vixon/"><circle id="pending-chat-message" cx="10" cy="10" r="4" fill="yellow" /></a>
+		// </svg> 
+
+		function notificationrun(secret_room, username) {
+			console.log("function reached to a point")
+			let newdiv = document.createElement('div');
+			if (username != "{{request.user.username}}")
+				var new_notification = ``;
+			else	
+				var new_notification = `<div class="user-msg-notification" style=""><div class="new-notification"><svg height="22" width="20"><a href="#"><circle id="pending-chat-message" cx="10" cy="10" r="4" fill="yellow" /></a></svg></div></div>`;
+			newdiv.innerHTML = new_notification;
+			let element = document.getElementById('notification-bar')
+			let parent = element.parentNode;
+			parent.insertBefore(newdiv, element);
+		}
+		document.querySelector('#message-notification-signal').onclick = function(e) {
+            var secret_room_name = makeid(8);
+            chatSocket.send(JSON.stringify({
+                'secret_room_name': secret_room_name,
+				'other_username': other_username,
+            }));
+        };
+
+		function makeid(length) {
+			var result = '';
+			var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			var charactersLength = characters.length;
+			for ( var i = 0; i < length; i++ ) {
+				result += characters.charAt(Math.floor(Math.random() * 
+				charactersLength));
+			}
+			return result;
+		}
+
+	</script>
 {% endblock content %}
