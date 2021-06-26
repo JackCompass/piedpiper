@@ -126,6 +126,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT_URL = BASE_DIR / 'static'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

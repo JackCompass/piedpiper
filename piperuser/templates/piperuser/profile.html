@@ -11,7 +11,7 @@
 							</div>
 						</div>
 						{{ user.username|json_script:"other_username" }}
-						<img src="{% static 'piperchat/avatar.png' %}" alt="John" style="width:50%; margin: auto;">
+						<img src="{{ user.userimage.avatar.url }}" alt="John" style="width:50%; margin: auto;">
 						<h1>{{user.username}}</h1>
 						<p>{{user.email}}</p>
 						<p>{{user.first_name | capfirst}} {{user.last_name}}</p>

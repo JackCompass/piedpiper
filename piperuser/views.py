@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse
-from piperuser.forms import Registration, EditProfileForm
+from piperuser.forms import Registration, EditProfileForm, ImageForm
 from django.contrib.auth.forms import  PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -62,6 +62,24 @@ def changepassword(request):
 		form = PasswordChangeForm(user = request.user)
 		return render(request, 'piperuser/password.html', {
 			'form' : form
+		})
+
+@login_required
+def imageupload(request):
+	if request.method == 'POST':
+		form = ImageForm(request.POST, request.FILES, instance = request.user.userimage)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse('porfile'))
+		else:
+			return render(request, 'piperuser/upload.html', {
+				'form' : form,
+			})
+
+	else:
+		form = ImageForm(instance = request.user.userimage)
+		return render(request, 'piperuser/upload.html', {
+			'form' : form,
 		})
 
 @login_required
