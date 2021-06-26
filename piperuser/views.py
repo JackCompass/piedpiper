@@ -70,7 +70,7 @@ def imageupload(request):
 		form = ImageForm(request.POST, request.FILES, instance = request.user.userimage)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse('porfile'))
+			return redirect(reverse('profile'))
 		else:
 			return render(request, 'piperuser/upload.html', {
 				'form' : form,

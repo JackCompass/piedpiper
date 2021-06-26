@@ -7,7 +7,7 @@
 		<h3 class="text-center alert alert-info">Users Information</h3>
 			<table class="table table-hover">
 				<div class="card">
-					<form method="POST">
+					<form method="POST" enctype="multipart/form-data">
 						{% csrf_token %}
 						{{form|crispy}}
 						<button type="Submit" value="add">Upload</button>
