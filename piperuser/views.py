@@ -33,6 +33,7 @@ def register(request):
 def profile(request):
 	return render(request, 'piperuser/profile.html', {
 		'user' : request.user,
+		'flag' : False
 	})
 
 @login_required
@@ -96,7 +97,7 @@ def profilesearch(request):
 			print(searched_user.first_name)
 			return render(request, 'piperuser/profile.html', {
 				'user' : searched_user,
-				'username' : searched_user.username,
+				'flag' : True,
 			})
 			
 	else:
