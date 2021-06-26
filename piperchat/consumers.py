@@ -91,6 +91,7 @@ class Notification(AsyncWebsocketConsumer):
 		message = event['message']
 		other_username = event['other_username']
 		# Send message to WebSocket
+		print('inside chat_message function 	')
 		await self.send(text_data=json.dumps({
 			'message': message,
 			'other_username': other_username,

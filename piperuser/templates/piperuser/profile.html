@@ -58,8 +58,9 @@
 
 		chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
+			console.log("inside onmessage function")
 			notificationrun(data.message, data.other_username)
-			
+
             // document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
         };
 		// <svg height="22" width="20">
@@ -70,7 +71,7 @@
 			console.log("function reached to a point")
 			let newdiv = document.createElement('div');
 			if (username != "{{request.user.username}}")
-				var new_notification = ``;
+				window.location.pathname = '/chat/' + secret_room + '/';
 			else	
 				var new_notification = `<div class="new-notification"><svg height="22" width="20"><a href="chat/${secret_room}"><circle id="pending-chat-message" cx="10" cy="10" r="4" fill="yellow" /></a></svg></div>`;
 			newdiv.innerHTML = new_notification;
@@ -84,7 +85,6 @@
                 'secret_room_name': secret_room_name,
 				'other_username': other_username,
             }));
-			window.location.pathname = '/chat/' + secret_room_name + '/';
 
         };
 		function makeid(length) {
