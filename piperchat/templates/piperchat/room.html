@@ -46,14 +46,29 @@
 
 		function broadcast(msg, username, msgtime) {
 			let newdiv = document.createElement('div');
-			if (username == "{{request.user.username}}")
-				var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
-			else	
-				var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+			if (validURL(msg)) {
+				if (msg[0] != 'h')
+					msg = 'http://' + msg;
+				if (username == "{{request.user.username}}")
+					var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~'} + <a href="${msg}">${msg}</a></div>${msgtime}</div>`;
+				else	
+					var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~'} + <a href="${msg}">${msg}</a></div>${msgtime}</div>`;
+			}
+			else {
+				if (username == "{{request.user.username}}")
+					var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+				else	
+					var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message>${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+			}
 			newdiv.innerHTML = new_msg;
 			let element = document.getElementById('chat-log')
 			let parent = element.parentNode;
 			parent.insertBefore(newdiv, element);
+		}
+
+		function validURL(str) {
+			var pattern = new RegExp('^(https?:\\/\\/)?'+'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+'((\\d{1,3}\\.){3}\\d{1,3}))'+'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+'(\\?[;&a-z\\d%_.~+=-]*)?'+'(\\#[-a-z\\d_]*)?$','i');
+			return !!pattern.test(str);
 		}
 
         chatSocket.onclose = function(e) {
