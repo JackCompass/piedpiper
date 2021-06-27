@@ -4,13 +4,15 @@
 <div class="row">
 	<div class="col-sm-8" style="margin: auto">
 		<h3 class="text-center alert alert-info">Inbox</h3>
+		<img hidden id='snipped-big-img'>
 		<div class="msg-box-chat">
 			<div id="chat-log">
 			</div>
 		</div>
 		<!-- <textarea readonly id="chat-log" style="width: 100%; height: 200px;"></textarea><br> -->
 		<input id="chat-message-input" type="text" size="100" placeholder="Your Message" style="width: 50%; margin-bottom: 5px;"><br>
-		<input id="chat-message-submit" type="button" value="Send">
+		<input id="chat-message-submit" type="button" style="visibility: visible;" value="Send">
+		<input id="chat-message-img-submit" type="button" style="visibility: hidden;" value="Send Image">
 		{{ room_name|json_script:"room-name" }}
 		<div class="logout-system" style="margin: 20px 0px;">
 			<form action="{% url 'logout' %}" method='POST'>
@@ -34,15 +36,68 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
 			// broadcast(data.message, data.username)
-			broadcast(data.message, data.username, data.msgtime);
+			if (data.message_type = 'image')
+				imagebroadcast(data.message, data.username, data.msgtime);
+			else
+				broadcast(data.message, data.username, data.msgtime);
 			scrollbottom();
             // document.querySelector('#chat-log').value += ('@'+data.username + '~ ' + data.message + '\n');
         };
+
+		function imagebroadcast(msg, username, msgtime) {
+			let newdiv = document.createElement('div');
+			msg = `<img src="${msg}">`;
+			if (username == "{{request.user.username}}")
+				var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message onclick="this.innerHTML = 'You have deleted this message'">${msg}</div>${msgtime}</div>`;
+			else	
+				var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message onclick="this.innerHTML = 'You Have deleted this message'">${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+			newdiv.innerHTML = new_msg;
+			let element = document.getElementById('chat-log')
+			let parent = element.parentNode;
+			parent.insertBefore(newdiv, element);
+		}
+
 
 		function scrollbottom() {
 			let msgbox = document.querySelector('.msg-box-chat');
 			msgbox.scrollTop = msgbox.scrollHeight;
 		}
+
+		document.querySelector('#chat-message-input').onpaste = function(e) {
+            let item = e.clipboardData.items[0];
+            if (item.type.includes('image')) {
+                let blob = item.getAsFile();
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById("snipped-big-img").src = event.target.result;
+                };
+				document.getElementById("chat-message-img-submit").style.visibility = "visible";
+				document.getElementById("chat-message-submit").style.visibility = "hidden";
+                reader.readAsDataURL(blob);
+            }
+        }
+
+		document.getElementById('chat-message-img-submit').onclick = function(e) {
+            sendImage();
+        }
+
+		function sendImage() {
+			var messageInputDom = document.getElementById("snipped-big-img");
+			var source = messageInputDom.src
+			let current = new Date();
+			var msgtime = current.getHours() + ':' + current.getMinutes();
+            chatSocket.send(JSON.stringify({
+                'message': source,
+                'message_type': 'image',
+                'msgtime': msgtime,
+            }));
+
+			messageInputDom.src = '';
+			document.getElementById("chat-message-input").value = '';
+			document.getElementById("chat-message-img-submit").style.visibility = "hidden";
+			document.getElementById("chat-message-submit").style.visibility = "visible";
+        }
+
 
 		function broadcast(msg, username, msgtime) {
 			let newdiv = document.createElement('div');
@@ -89,6 +144,7 @@
 			var msgtime = current.getHours() + ':' + current.getMinutes();
             chatSocket.send(JSON.stringify({
                 'message': message,
+				'message_type' : 'text',
 				'msgtime': msgtime,
             }));
             messageInputDom.value = '';
