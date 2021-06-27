@@ -33,10 +33,11 @@
             + roomName
             + '/'
         );	
-        chatSocket.onmessage = function(e) {
+       
+		chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
 			// broadcast(data.message, data.username)
-			if (data.message_type = 'image')
+			if (data.message_type == 'image')
 				imagebroadcast(data.message, data.username, data.msgtime);
 			else
 				broadcast(data.message, data.username, data.msgtime);
