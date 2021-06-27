@@ -56,9 +56,9 @@
 			}
 			else {
 				if (username == "{{request.user.username}}")
-					var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message onclick="this.innerHTML = You have deleted the message'">${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+					var new_msg = `<div class="right-msg-container" style="width:50%; overflow-wrap:break-word; margin-left:50%; background-color:#d0d0d0; margin-bottom:4px; border-radius:12px; padding: 4px 4px;"><div new-message onclick="this.innerHTML = 'You have deleted this message'">${'@'+username + '~' + msg}</div>${msgtime}</div>`;
 				else	
-					var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message onclick="this.innerHTML = 'You Have delete the message'">${'@'+username + '~' + msg}</div>${msgtime}</div>`;
+					var new_msg = `<div class="left-msg-container" style="width:50%; overflow-wrap:break-word; background-color:#e1e1e1; border-radius:12px; padding:4px 4px; margin-bottom:4px;"><div new-message onclick="this.innerHTML = 'You Have deleted this message'">${'@'+username + '~' + msg}</div>${msgtime}</div>`;
 			}
 			newdiv.innerHTML = new_msg;
 			let element = document.getElementById('chat-log')
