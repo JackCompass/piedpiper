@@ -5,8 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from asgiref.sync import sync_to_async
-from django.contrib.auth.signals import user_logged_in, user_logged_out
-from django.dispatch import receiver
 from piperuser.models import Profile
 
 def register(request):
@@ -102,13 +100,3 @@ def profilesearch(request):
 			
 	else:
 		return render(request, 'piperuser/searchuser.html')
-
-@receiver(user_logged_in)
-def got_online(sender, user, request, **kwargs):    
-	user.profile.is_online = True
-	user.profile.save()
-
-@receiver(user_logged_out)
-def got_offline(sender, user, request, **kwargs):   
-	user.profile.is_online = False
-	user.profile.save()
