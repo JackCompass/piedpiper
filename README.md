@@ -4,6 +4,8 @@ A Django-based web applicaton to chat with your friends as well as the people ar
 A user has power to create custom channels and invite other members.
 The application is designed in such a way that users can express what they want to express either by text or images or gifs etc. 
 
+Demo : [Piedpiper](https://youtu.be/km2-S0rkKRA)
+
 ## Tech Stack
 - **Django**
 - **HTML5**
@@ -11,8 +13,6 @@ The application is designed in such a way that users can express what they want 
 - **JavaScript**
 - **Redis**
 - **Web Sockets**
-
-Demo : [Piedpiper](https://youtu.be/km2-S0rkKRA)
 
 ## Piedpiper Benefits
 - Improved Communication
